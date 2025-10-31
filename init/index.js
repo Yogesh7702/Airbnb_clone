@@ -20,7 +20,7 @@
   try {
     await listing.deleteMany({});
      const userId = "68e7ae2d66f4675cdc12660a";
-    const updatedData = initdata.map((obj) => ({
+     const updatedData = initdata.data.map((obj) => ({
       ...obj,
       owner: userId,
     }));

@@ -59,13 +59,13 @@ const sessionConfig = {
 };
 app.use(flash());
 
-// ==== Passport setup (must be AFTER session middleware) ====
+//      Passport setup 
 
 app.use(session(sessionConfig));
 app.use(passport.initialize());
 app.use(passport.session());
 
-// IMPORTANT: User must be imported from models (done above)
+
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser((user, done) => {
   done(null, user._id);
@@ -77,9 +77,8 @@ passport.deserializeUser(async (id, done) => {
 });
 
 
-// ==== Debug middleware (after passport.session) ====
+// ==== Debug middleware 
 app.use((req, res, next) => {
-  // helpful debug prints while you fix issues; remove in production
   console.log("=== REQUEST INFO ===");
   console.log("URL:", req.originalUrl);
   console.log("Cookie header present?:", !!req.headers.cookie);
@@ -90,7 +89,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// ==== Make flash + curruser available in templates ====
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
@@ -98,12 +96,16 @@ app.use((req, res, next) => {
   next();
 });
 
-// ==== Routers ====
+//    Routers
+app.get("/", (req, res) => {
+  res.redirect("/listings");
+});
+
 app.use("/", userRouter);
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
 
-// ==== Start server ====
+//  Start server
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
