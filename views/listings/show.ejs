@@ -33,7 +33,6 @@
    <% listing.reviews.forEach(review=> { %>
       <% if(curruser && review.author && review.author._id.equals(curruser._id)) { %>
          <form action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
-            <button class="btn btn-danger">Delete Review</button>
          </form>
          <% } %>
             <% }) %>
